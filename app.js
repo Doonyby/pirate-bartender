@@ -25,10 +25,10 @@ $(document).ready(function() {
 // Bartender.prototype = Object.create(Worker.prototype);
 // Bartender.prototype.constructor = Bartender;
  
-// //Inherits questions and answers from which worker asked the question.
-// var Questions = function(answer) {
-// 	this.answer = answer;
-// }
+
+var Questions = function(question) {
+	this.question = question;
+}
 
 
 var Pantry = function() {
@@ -92,5 +92,37 @@ barPantry.addIngredient(pantryItem);
 console.log(barPantry);
 
 
+var pantryItem = new Ingredient('vegetable', 'lettuce');
+grillPantry.addIngredient(pantryItem);
+var pantryItem = new Ingredient('vegetable', 'tomato');
+grillPantry.addIngredient(pantryItem);
+var pantryItem = new Ingredient('vegetable', 'onion');
+grillPantry.addIngredient(pantryItem);
+var pantryItem = new Ingredient('pig', 'bacon');
+grillPantry.addIngredient(pantryItem);
+var pantryItem = new Ingredient('pig', 'ham');
+grillPantry.addIngredient(pantryItem);
+var pantryItem = new Ingredient('pig', 'spam');
+grillPantry.addIngredient(pantryItem);
+var pantryItem = new Ingredient('cheese', 'swiss');
+grillPantry.addIngredient(pantryItem);
+var pantryItem = new Ingredient('cheese', 'chedder');
+grillPantry.addIngredient(pantryItem);
+var pantryItem = new Ingredient('cheese', 'blue cheese');
+grillPantry.addIngredient(pantryItem);
+var pantryItem = new Ingredient('gourmet', 'avacado');
+grillPantry.addIngredient(pantryItem);
+var pantryItem = new Ingredient('gourmet', 'mushroom');
+grillPantry.addIngredient(pantryItem);
+var pantryItem = new Ingredient('gourmet', 'jalepeno');
+grillPantry.addIngredient(pantryItem);
+var pantryItem = new Ingredient('sauce', 'mayonnaise');
+grillPantry.addIngredient(pantryItem);
+var pantryItem = new Ingredient('sauce', 'bbq sauce');
+grillPantry.addIngredient(pantryItem);
+var pantryItem = new Ingredient('sauce', 'mustard');
+grillPantry.addIngredient(pantryItem);
+
+console.log(grillPantry);
 
 });
