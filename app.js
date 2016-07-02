@@ -1,40 +1,102 @@
 $(document).ready(function() {
 
 
-// //Worker gets the name from the customer.
-// var Worker = function() {
-// 	var name = prompt("What is your name");
-// 	this.name = name;
-// }
-// //Worker ask's the customer where they prefer to sit (bar, grill, both)
-// Worker.prototype.findSeat = function() {
-// 	seat = (bar, grill, both)
-// }
-
-// //Inherits customer responsibility from where the customer chose to sit (bar, grill, both)
-// var Cook = function() {
-// 	Worker.call(this, seat);
-// }
-// Cook.prototype = Object.create(Worker.prototype);
-// Cook.prototype.constructor = Cook;
-
-// //Inherits customer responsibility from where the customer chose to sit (bar, grill, both)
-// var Bartender = function() {
-// 	Worker.call(this, seat);
-// }
-// Bartender.prototype = Object.create(Worker.prototype);
-// Bartender.prototype.constructor = Bartender;
- 
-
-var Questions = function(question) {
-	this.question = question;
+//Worker gets the name from the customer.
+var Worker = function() {
+	var name = prompt("What is your name");
+	this.name = name;
 }
 
+//This will be kind of the direction I was heading when I get the UI up and running for new 
+//customer objects to be created with whatever input happens.
+var preference = {
+	name: 'dan',
+	seat: [
+		{
+			seat: 'bar',
+			strong: ,
+			salty:	,
+			bitter: ,
+			sweet: ,
+			fruity: ,		
+		},
+		{
+			seat: 'grill',
+			vegetable: ,
+			pig: ,
+			cheese: ,
+			gourmet: ,
+			sauce: ,
+			
+		},
+		{
+			seat: 'both',
+			strong: ,
+			salty:	,
+			bitter: ,
+			sweet: ,
+			fruity: ,
+			vegetable: ,
+			pig: ,
+			cheese: ,
+			gourmet: ,
+			sauce: ,
+		}
+	]
+};
+var Cook = function() {
+	
+}
 
+Cook.prototype.createBurger = function() {
+
+}
+
+var Bartender = function() {
+	
+}
+
+Bartender.prototype.createDrink = function() {
+
+} 
+
+//Create a Question constructor that contains an array.
+var Questions = function() {
+	this.questions = [];
+}
+
+//Create the two types of questions.
+var barQuestions = new Questions();
+var grillQuestions = new Questions();
+
+//Push question objects with a flavor and question up into the Question array.
+Questions.prototype.addQuestion = function(flavor, question) {
+	this.questions.push({flavor, question})
+}
+
+//Add questions to the appropriate Question constructor.
+barQuestions.addQuestion('strong', 'Do ye like yer drinks strong?');
+barQuestions.addQuestion('salty', 'Do ye like it with a salty tang?');
+barQuestions.addQuestion('bitter', 'Are ye a lubber who likes it bitter?');
+barQuestions.addQuestion('sweet', 'Would ye like a bit of sweetness with yer poison?');
+barQuestions.addQuestion('fruity', 'Are ye one for a fruity finish?');
+
+console.log(barQuestions);
+
+grillQuestions.addQuestion('vegetable', 'Are ye a seaweed suckin sissy who likes green with his meat?');
+grillQuestions.addQuestion('pig', 'Would ye like some salted pig with yer patty?');
+grillQuestions.addQuestion('cheese', 'Do ye like yer beef with a bit of aged curd?');
+grillQuestions.addQuestion('gourmet', 'Are ye a fancy scum with a palate for adventure?');
+grillQuestions.addQuestion('sauce', 'Do ye like yer patty slimed with sauce?');
+
+console.log(grillQuestions);
+
+//Create the Pantry object.
 var Pantry = function() {
 	this.ingredients = {};
 }
 
+//Find the ingredient flavor, and pull a random ingredient off of that shelf.
 Pantry.prototype.getIngredient = function(flavor) {
 	if (this.ingredients[flavor]) {
 		var random = Math.floor(Math.random() * this.ingredients[flavor].length);
@@ -42,6 +104,7 @@ Pantry.prototype.getIngredient = function(flavor) {
 	}
 }
 
+//If Pantry object has flavor, push ingredient.  If Pantry doesn't have flavor, add flavor and ingredient.
 Pantry.prototype.addIngredient = function(pantryItem) {
 	if (this.ingredients[pantryItem.flavor]) {
 		this.ingredients[pantryItem.flavor].push(pantryItem.name);
@@ -50,14 +113,17 @@ Pantry.prototype.addIngredient = function(pantryItem) {
 	}
 }
 
+//Create pantry for both bar and grill.
 var barPantry = new Pantry();
 var grillPantry = new Pantry();
 
+//Create an ingredient Constructor and pass in a flavor and name.
 var Ingredient = function(flavor, name) {
 	this.flavor = flavor;
 	this.name = name;
 }
 
+//Add different flavors and ingredients to specific Pantry.
 var pantryItem = new Ingredient('strong', 'glug of rum');
 barPantry.addIngredient(pantryItem);
 var pantryItem = new Ingredient('strong', 'slug of whisky');
