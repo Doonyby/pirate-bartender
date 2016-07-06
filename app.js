@@ -1,49 +1,18 @@
 $(document).ready(function() {
 
+	$('#enterBar').show();
+	$('.bar').hide();
+	$('button').click(function() {
+		$('#enterBar').hide();
+		$('.bar').show();
+		var name = prompt("What do they call ye?");
+		$('#welcome').text("Welcome " + name + "!");
+	});
 
-//Worker gets the name from the customer.
 var Worker = function() {
-	var name = prompt("What is your name");
-	this.name = name;
+	
 }
 
-//This will be kind of the direction I was heading when I get the UI up and running for new 
-//customer objects to be created with whatever input happens.
-var preference = {
-	name: 'dan',
-	seat: [
-		{
-			seat: 'bar',
-			strong: ,
-			salty:	,
-			bitter: ,
-			sweet: ,
-			fruity: ,		
-		},
-		{
-			seat: 'grill',
-			vegetable: ,
-			pig: ,
-			cheese: ,
-			gourmet: ,
-			sauce: ,
-			
-		},
-		{
-			seat: 'both',
-			strong: ,
-			salty:	,
-			bitter: ,
-			sweet: ,
-			fruity: ,
-			vegetable: ,
-			pig: ,
-			cheese: ,
-			gourmet: ,
-			sauce: ,
-		}
-	]
-};
 var Cook = function() {
 	
 }
@@ -68,6 +37,7 @@ var Questions = function() {
 //Create the two types of questions.
 var barQuestions = new Questions();
 var grillQuestions = new Questions();
+var workerQuestions = new Questions();
 
 //Push question objects with a flavor and question up into the Question array.
 Questions.prototype.addQuestion = function(flavor, question) {
@@ -90,6 +60,12 @@ grillQuestions.addQuestion('gourmet', 'Are ye a fancy scum with a palate for adv
 grillQuestions.addQuestion('sauce', 'Do ye like yer patty slimed with sauce?');
 
 console.log(grillQuestions);
+
+workerQuestions.addQuestion('bar', 'Are ye here to quench that thirst of yers?');
+workerQuestions.addQuestion('grill', 'Would ye just prefer to fill yer appetite with grub?');
+workerQuestions.addQuestion('both', 'Would ye like both the drink and the dry?');
+
+console.log(workerQuestions);
 
 //Create the Pantry object.
 var Pantry = function() {
@@ -192,3 +168,42 @@ grillPantry.addIngredient(pantryItem);
 console.log(grillPantry);
 
 });
+
+
+//This will be kind of the direction I was heading when I get the UI up and running for new 
+//customer objects to be created with whatever input happens.
+// var preference = {
+// 	name: 'dan',
+// 	seat: [
+// 		{
+// 			seat: 'bar',
+// 			strong: 
+// 			salty:	
+// 			bitter: 
+// 			sweet: 
+// 			fruity: 		
+// 		},
+// 		{
+// 			seat: 'grill',
+// 			vegetable: 
+// 			pig: 
+// 			cheese: 
+// 			gourmet:
+// 			sauce: 
+			
+// 		},
+// 		{
+// 			seat: 'both',
+// 			strong: 
+// 			salty:	
+// 			bitter: 
+// 			sweet: 
+// 			fruity: 
+// 			vegetable: 
+// 			pig: 
+// 			cheese: 
+// 			gourmet: 
+// 			sauce: 
+// 		}
+// 	]
+// };
