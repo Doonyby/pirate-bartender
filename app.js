@@ -1,33 +1,83 @@
 $(document).ready(function() {
-
-	$('#enterBar').show();
-	$('.bar').hide();
-	$('button').click(function() {
-		$('#enterBar').hide();
-		$('.bar').show();
-		var name = prompt("What do they call ye?");
-		$('#welcome').text("Welcome " + name + "!");
+	var name = "";
+	$('#orderDrink').click(function() {
+		html = "";
+		html += "<p>The name is Bud, what's yours?</p>";
+		html += "<form><br>";
+		html += "<input type='text' name='name' id='customerName' placeholder='enter name here'><br>";
+		html +=	"<input type='submit' id='submitName'></form>";
+		$('.action').html(html);
+		bud.getName();
 	});
 
-var Worker = function() {
-	
+	$('#orderBurger').click(function() {
+		html = "";
+		html += "<p>The name is Clarence, what's yours?</p>";
+		html += "<form><br>";
+		html += "<input type='text' name='name' id='customerName' placeholder='enter name here'><br>";
+		html +=	"<input type='submit' id='submitName'></form>";
+		$('.action').html(html);
+		clarence.getName();
+	});
+
+var Customer = function(name) {
+	this.name = name;
+	this.drink = drink;
+	this.burger = burger;
 }
 
-var Cook = function() {
-	
+var Worker = function(name) {
+	this.name = name;
+	this.customers = {};
 }
+
+Worker.prototype.getName = function() {
+	$('#submitName').click(function(event) {
+		event.preventDefault();
+		var html = "";
+		if ($('#customerName').val() == '') {
+			html += "<p>Please enter a name so we're not strangers... Would hate to start off on the wrong foot. Try again.</p>";
+		}
+		else {
+		$('#enterBar').hide();
+		name = $('#customerName').val();
+		html += "<p>Welcome " + name + "!  Please pick yer poison.</p>";
+		}
+		$('.action').html(html);
+		console.log(bud.name);		
+	});
+}
+
+var Cook = function(name) {
+	Worker.call(this, name)
+}
+Cook.prototype = Object.create(Worker.prototype);
+Cook.prototype.constructor = Cook;
 
 Cook.prototype.createBurger = function() {
 
 }
 
-var Bartender = function() {
+Cook.prototype.nameBurger = function() {
+
+}
+
+var Bartender = function(name) {
+	Worker.call(this, name)
+}
+Bartender.prototype = Object.create(Worker.prototype);
+Bartender.prototype.constructor = Bartender;
+
+Bartender.prototype.createDrink = function() {
 	
 }
 
-Bartender.prototype.createDrink = function() {
+Bartender.prototype.nameDrink = function() {
 
-} 
+}
+
+var bud = new Bartender();
+var clarence = new Cook(); 
 
 //Create a Question constructor that contains an array.
 var Questions = function() {
@@ -37,7 +87,6 @@ var Questions = function() {
 //Create the two types of questions.
 var barQuestions = new Questions();
 var grillQuestions = new Questions();
-var workerQuestions = new Questions();
 
 //Push question objects with a flavor and question up into the Question array.
 Questions.prototype.addQuestion = function(flavor, question) {
@@ -51,7 +100,7 @@ barQuestions.addQuestion('bitter', 'Are ye a lubber who likes it bitter?');
 barQuestions.addQuestion('sweet', 'Would ye like a bit of sweetness with yer poison?');
 barQuestions.addQuestion('fruity', 'Are ye one for a fruity finish?');
 
-console.log(barQuestions);
+//console.log(barQuestions);
 
 grillQuestions.addQuestion('vegetable', 'Are ye a seaweed suckin sissy who likes green with his meat?');
 grillQuestions.addQuestion('pig', 'Would ye like some salted pig with yer patty?');
@@ -59,13 +108,7 @@ grillQuestions.addQuestion('cheese', 'Do ye like yer beef with a bit of aged cur
 grillQuestions.addQuestion('gourmet', 'Are ye a fancy scum with a palate for adventure?');
 grillQuestions.addQuestion('sauce', 'Do ye like yer patty slimed with sauce?');
 
-console.log(grillQuestions);
-
-workerQuestions.addQuestion('bar', 'Are ye here to quench that thirst of yers?');
-workerQuestions.addQuestion('grill', 'Would ye just prefer to fill yer appetite with grub?');
-workerQuestions.addQuestion('both', 'Would ye like both the drink and the dry?');
-
-console.log(workerQuestions);
+//console.log(grillQuestions);
 
 //Create the Pantry object.
 var Pantry = function() {
@@ -131,7 +174,7 @@ barPantry.addIngredient(pantryItem);
 var pantryItem = new Ingredient('fruity', 'cherry on top');
 barPantry.addIngredient(pantryItem);
 
-console.log(barPantry);
+//console.log(barPantry);
 
 
 var pantryItem = new Ingredient('vegetable', 'lettuce');
@@ -165,45 +208,7 @@ grillPantry.addIngredient(pantryItem);
 var pantryItem = new Ingredient('sauce', 'mustard');
 grillPantry.addIngredient(pantryItem);
 
-console.log(grillPantry);
+//console.log(grillPantry);
 
 });
 
-
-//This will be kind of the direction I was heading when I get the UI up and running for new 
-//customer objects to be created with whatever input happens.
-// var preference = {
-// 	name: 'dan',
-// 	seat: [
-// 		{
-// 			seat: 'bar',
-// 			strong: 
-// 			salty:	
-// 			bitter: 
-// 			sweet: 
-// 			fruity: 		
-// 		},
-// 		{
-// 			seat: 'grill',
-// 			vegetable: 
-// 			pig: 
-// 			cheese: 
-// 			gourmet:
-// 			sauce: 
-			
-// 		},
-// 		{
-// 			seat: 'both',
-// 			strong: 
-// 			salty:	
-// 			bitter: 
-// 			sweet: 
-// 			fruity: 
-// 			vegetable: 
-// 			pig: 
-// 			cheese: 
-// 			gourmet: 
-// 			sauce: 
-// 		}
-// 	]
-// };
