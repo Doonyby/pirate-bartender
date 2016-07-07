@@ -80,12 +80,14 @@ $(document).ready(function() {
 		console.log(customer);
 		var name = customer;
 		bud.getName(name);
+		bud.getDrink(name);
 	}
 
 	function clarencesCustomer(customer) {
 		console.log(customer);
 		var name = customer;
 		clarence.getName(name);
+		clarence.getBurger(name);
 	}
 
 var Customer = function(name) {
@@ -106,7 +108,7 @@ Worker.prototype.getName = function(name) {
 	}
 	else {
 		this.customers[name] = new Customer(name);
-		html += "<br><p>Glad you stopped by " + name + "! New company is always welcome!";
+		html += "<br><p>Glad you stopped by " + name + "! New company is always welcome!</p><br>";
 	}
 	$('#dialogue').html(html);
 	$('#comment').html("<p>Welcome to the Seaside Bar and Grill!!!</p><br>")
@@ -120,8 +122,23 @@ var Cook = function(name) {
 Cook.prototype = Object.create(Worker.prototype);
 Cook.prototype.constructor = Cook;
 
-Cook.prototype.createBurger = function() {
+Cook.prototype.getBurger = function(name) {
+	if (this.customers[name].burger) {
+		console.log('getting a burger for ' + name);
+	}
+	else {
+		clarence.createBurger(name);
+	}
+}
 
+Cook.prototype.createBurger = function() {
+	var html = ""
+	html += "<p>How do ye prefer yer stack:</p><br><form>";
+	for (var i=0; i<grillQuestions.questions.length; i++) {
+		html += "<input type='radio' value='" + grillQuestions.questions[i].flavor + "'> " + grillQuestions.questions[i].question + "<br><br>";
+	}
+	html += "<br><input type='submit' id='burgerMaker' value='Make my burger!'>"
+	$('#action').html(html);
 }
 
 Cook.prototype.nameBurger = function() {
@@ -134,24 +151,27 @@ var Bartender = function(name) {
 Bartender.prototype = Object.create(Worker.prototype);
 Bartender.prototype.constructor = Bartender;
 
-Bartender.prototype.getDrink = function(customer) {
-	console.log('getting a drink for ' + customer);
-	if (this.customers[customer]) {
-		if (this.customers[customer][drink]) {
-			console.log('no favorite');
-			this.customers[customer][drink] = 'beer';
-		}
-		else {
-			console.log(this.customers[customer][drink])
-		}
+Bartender.prototype.getDrink = function(name) {
+	if (this.customers[name].drink) {
+		console.log('getting a drink for ' + name);
 	}
 	else {
-		console.log('what would you like to drink?')
+		bud.createDrink(name);
 	}
 }
 
-Bartender.prototype.createDrink = function() {
-	
+Bartender.prototype.createDrink = function(name) {
+	var html = ""
+	html += "<p>How do ye prefer yer poison:</p><br><form>";
+	for (var i=0; i<barQuestions.questions.length; i++) {
+		html += "<input type='radio' value='" + barQuestions.questions[i].flavor + "'> " + barQuestions.questions[i].question + "<br><br>";
+	}
+	html += "<br><input type='submit' id='drinkMixer' value='Mix my drink!'>"
+	$('#action').html(html);
+	$('#drinkMixer').click(function(event) {
+		event.preventDefault();
+		console.log($("input:radio:checked").val());
+	})
 }
 
 Bartender.prototype.nameDrink = function() {
