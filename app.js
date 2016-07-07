@@ -1,29 +1,97 @@
 $(document).ready(function() {
-	var name = "";
-	$('#orderDrink').click(function() {
-		html = "";
-		html += "<p>The name is Bud, what's yours?</p>";
-		html += "<form><br>";
-		html += "<input type='text' name='name' id='customerName' placeholder='enter name here'><br>";
-		html +=	"<input type='submit' id='submitName'></form>";
-		$('.action').html(html);
-		bud.getName();
-	});
+	
+	function enter() {
+		$('#askName').hide();
+		$('#order').hide();
+		$('#enterBar').show();
+		$('#openBar').click(function() {
+			orderWhat();
+		});
+	}
 
-	$('#orderBurger').click(function() {
-		html = "";
-		html += "<p>The name is Clarence, what's yours?</p>";
-		html += "<form><br>";
-		html += "<input type='text' name='name' id='customerName' placeholder='enter name here'><br>";
-		html +=	"<input type='submit' id='submitName'></form>";
-		$('.action').html(html);
-		clarence.getName();
-	});
+	function orderWhat() {
+		$('#enterBar').hide();
+		$('#askName').hide();
+		$('#order').show();
+		var html = "";
+		html += "<p>What would you like sailor?</p><br>";
+		$('#comment').html(html);
+		var html2 = "";
+		html2 += "<button id='orderDrink'>I want a drink!</button>"
+	    html2 += "<button id='orderBurger'>I want a burger!</button><br>"
+		$('#barGrill').html(html2);
+		$('#orderDrink').click(function() {
+			var html = "";
+			html += "<br><p>The name is Bud, what's yours?</p>";
+			$('#dialogue').html(html);
+			choseBar();
+		});
+
+		$('#orderBurger').click(function() {
+			var customer = "";
+			var html = "";
+			html += "<br><p>The name is Clarence, what's yours?</p>";
+			$('#dialogue').html(html);
+			choseGrill();
+		});	
+	}
+
+	function choseBar() {
+		var customer = "";
+		var html = "";
+		html += "<form><br><input type='text' name='name' id='customerName' placeholder='enter name here'><br>";
+		html += "<br><input type='submit' id='submitName'></form>";
+		$('#action').html(html);
+		$('#submitName').click(function(event) {
+			event.preventDefault();
+			var html = "";
+			if ($('#customerName').val() == '') {
+				html += "<p>Please enter a name so we're not strangers... Would hate to start off on the wrong foot.</p>";
+				$('#dialogue').html(html);
+			}
+			else {
+				customer = $('#customerName').val();
+				budsCustomer(customer);
+			}
+		});
+	}
+
+	function choseGrill() {
+		var customer = "";
+		var html = "";
+		html += "<form><br><input type='text' name='name' id='customerName' placeholder='enter name here'><br>";
+		html += "<br><input type='submit' id='submitName'></form>";
+		$('#action').html(html);
+		$('#submitName').click(function(event) {
+			event.preventDefault();
+			var html = "";
+			if ($('#customerName').val() == '') {
+				html += "<p>Please enter a name so we're not strangers... Would hate to start off on the wrong foot.</p>";
+				$('#dialogue').html(html);
+			}
+			else {
+				customer = $('#customerName').val();
+				clarencesCustomer(customer);
+			}
+		});
+	}
+
+	function budsCustomer(customer) {
+		console.log(customer);
+		var name = customer;
+		bud.getName(name);
+	}
+
+	function clarencesCustomer(customer) {
+		console.log(customer);
+		var name = customer;
+		clarence.getName(name);
+	}
 
 var Customer = function(name) {
 	this.name = name;
-	this.drink = drink;
-	this.burger = burger;
+	this.drink = "";
+	this.burger = "";
 }
 
 var Worker = function(name) {
@@ -31,21 +99,19 @@ var Worker = function(name) {
 	this.customers = {};
 }
 
-Worker.prototype.getName = function() {
-	$('#submitName').click(function(event) {
-		event.preventDefault();
-		var html = "";
-		if ($('#customerName').val() == '') {
-			html += "<p>Please enter a name so we're not strangers... Would hate to start off on the wrong foot. Try again.</p>";
-		}
-		else {
-		$('#enterBar').hide();
-		name = $('#customerName').val();
-		html += "<p>Welcome " + name + "!  Please pick yer poison.</p>";
-		}
-		$('.action').html(html);
-		console.log(bud.name);		
-	});
+Worker.prototype.getName = function(name) {
+	var html = "";
+	if (this.customers[name]) {
+		html += "<br><p>Good to have you back " + name + "!";
+	}
+	else {
+		this.customers[name] = new Customer(name);
+		html += "<br><p>Glad you stopped by " + name + "! New company is always welcome!";
+	}
+	$('#dialogue').html(html);
+	$('#comment').html("<p>Welcome to the Seaside Bar and Grill!!!</p><br>")
+	$('#action').html("");		
+	console.log(this);
 }
 
 var Cook = function(name) {
@@ -67,6 +133,22 @@ var Bartender = function(name) {
 }
 Bartender.prototype = Object.create(Worker.prototype);
 Bartender.prototype.constructor = Bartender;
+
+Bartender.prototype.getDrink = function(customer) {
+	console.log('getting a drink for ' + customer);
+	if (this.customers[customer]) {
+		if (this.customers[customer][drink]) {
+			console.log('no favorite');
+			this.customers[customer][drink] = 'beer';
+		}
+		else {
+			console.log(this.customers[customer][drink])
+		}
+	}
+	else {
+		console.log('what would you like to drink?')
+	}
+}
 
 Bartender.prototype.createDrink = function() {
 	
@@ -209,6 +291,6 @@ var pantryItem = new Ingredient('sauce', 'mustard');
 grillPantry.addIngredient(pantryItem);
 
 //console.log(grillPantry);
-
+enter();
 });
 
