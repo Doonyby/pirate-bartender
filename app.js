@@ -121,14 +121,15 @@ Cook.prototype.constructor = Cook;
 
 Cook.prototype.getBurger = function(name) {
 	if (this.customers[name].burger) {
-		console.log('getting a burger for ' + name);
+		$('#action').html("<p>Here's another \"" + this.customers[name].burger + "\" for ye!</p>")
 	}
 	else {
 		clarence.createBurger(name);
 	}
 }
 
-Cook.prototype.createBurger = function() {
+Cook.prototype.createBurger = function(name) {
+	var choices = [];	
 	var html = ""
 	html += "<p>How do ye prefer yer stack:</p><br><form>";
 	for (var i=0; i<grillQuestions.questions.length; i++) {
@@ -136,10 +137,27 @@ Cook.prototype.createBurger = function() {
 	}
 	html += "<br><input type='submit' id='burgerMaker' value='Make my burger!'>"
 	$('#action').html(html);
+	$('#burgerMaker').click(function(event) {
+		event.preventDefault();
+        $.each($("input[type='radio']:checked"), function() {            
+            choices.push($(this).val()); 
+        });
+        grillPantry.getIngredient(choices);
+        clarence.nameBurger(name);
+	});
 }
 
-Cook.prototype.nameBurger = function() {
-
+Cook.prototype.nameBurger = function(name) {
+	var html = "";
+	var nouns = ["Arnold", "Joe", "Billy", "John", "Larry", "Max"];
+	var adjs = ["Fat", "Juicy", "Drippin", "Dense", "Greasy", "Loaded"];
+	var randomNoun = Math.floor(Math.random() * nouns.length);
+	var randomAdj = Math.floor(Math.random() * adjs.length);
+	var noun = nouns[randomNoun];
+	var adj = adjs[randomAdj];
+	html += "<br><p>Yarr!  Here be yer burger " + name + "!  A \"" + adj + " " + noun + "\" for ye!</p>" 
+	$('#dialogue').html(html);
+	this.customers[name].burger += adj + " " + noun;
 }
 
 var Bartender = function(name) {
@@ -187,7 +205,6 @@ Bartender.prototype.nameDrink = function(name) {
 	html += "<br><p>Yarr!  Here be yer drink " + name + "!  A \"" + adj + " " + noun + "\" for ye!</p>" 
 	$('#dialogue').html(html);
 	this.customers[name].drink += adj + " " + noun;
-	console.log(this.customers[name].drink);
 }
 
 var bud = new Bartender();
