@@ -77,14 +77,12 @@ $(document).ready(function() {
 	}
 
 	function budsCustomer(customer) {
-		console.log(customer);
 		var name = customer;
 		bud.getName(name);
 		bud.getDrink(name);
 	}
 
 	function clarencesCustomer(customer) {
-		console.log(customer);
 		var name = customer;
 		clarence.getName(name);
 		clarence.getBurger(name);
@@ -113,7 +111,6 @@ Worker.prototype.getName = function(name) {
 	$('#dialogue').html(html);
 	$('#comment').html("<p>Welcome to the Seaside Bar and Grill!!!</p><br>")
 	$('#action').html("");		
-	console.log(this);
 }
 
 var Cook = function(name) {
@@ -153,7 +150,7 @@ Bartender.prototype.constructor = Bartender;
 
 Bartender.prototype.getDrink = function(name) {
 	if (this.customers[name].drink) {
-		console.log('getting a drink for ' + name);
+		$('#action').html("<p>Here's another \"" + this.customers[name].drink + "\" for ye!</p>")
 	}
 	else {
 		bud.createDrink(name);
@@ -161,21 +158,36 @@ Bartender.prototype.getDrink = function(name) {
 }
 
 Bartender.prototype.createDrink = function(name) {
-	var html = ""
+	var choices = [];
+	var html = "";
 	html += "<p>How do ye prefer yer poison:</p><br><form>";
 	for (var i=0; i<barQuestions.questions.length; i++) {
 		html += "<input type='radio' value='" + barQuestions.questions[i].flavor + "'> " + barQuestions.questions[i].question + "<br><br>";
 	}
-	html += "<br><input type='submit' id='drinkMixer' value='Mix my drink!'>"
+	html += "<br><input type='submit' id='drinkMixer' value='Mix my drink!'>";
 	$('#action').html(html);
 	$('#drinkMixer').click(function(event) {
 		event.preventDefault();
-		console.log($("input:radio:checked").val());
-	})
+        $.each($("input[type='radio']:checked"), function() {            
+            choices.push($(this).val()); 
+        });
+        barPantry.getIngredient(choices);
+        bud.nameDrink(name);
+	});
 }
 
-Bartender.prototype.nameDrink = function() {
-
+Bartender.prototype.nameDrink = function(name) {
+	var html = "";
+	var nouns = ["Whale", "Lubber", "Scabber", "Ship", "Sea", "Pirate"];
+	var adjs = ["Lardy", "Black", "Jumpin", "Furious", "Grimy", "Slappin"];
+	var randomNoun = Math.floor(Math.random() * nouns.length);
+	var randomAdj = Math.floor(Math.random() * adjs.length);
+	var noun = nouns[randomNoun];
+	var adj = adjs[randomAdj];
+	html += "<br><p>Yarr!  Here be yer drink " + name + "!  A \"" + adj + " " + noun + "\" for ye!</p>" 
+	$('#dialogue').html(html);
+	this.customers[name].drink += adj + " " + noun;
+	console.log(this.customers[name].drink);
 }
 
 var bud = new Bartender();
@@ -219,10 +231,26 @@ var Pantry = function() {
 
 //Find the ingredient flavor, and pull a random ingredient off of that shelf.
 Pantry.prototype.getIngredient = function(flavor) {
-	if (this.ingredients[flavor]) {
-		var random = Math.floor(Math.random() * this.ingredients[flavor].length);
-		return this.ingredients[flavor][random];
+	var mixIns = [];
+	var html = "";
+	var last = "";
+	for (var i=0; i<flavor.length; i++) {
+		if (this.ingredients[flavor[i]]) {
+			var random = Math.floor(Math.random() * this.ingredients[flavor[i]].length);
+			mixIns.push(this.ingredients[flavor[i]][random]);	
+		}
 	}
+	html += "<p>Mixed with ";
+	if (mixIns.length == 1) {
+		last = mixIns.join() + "!";
+		html += last;
+	} else {
+		var pop = mixIns.pop();
+		html += mixIns.join(", ");
+		last = ", and " + pop + "!</p>";
+		html += last
+	}
+	$('#action').html(html);
 }
 
 //If Pantry object has flavor, push ingredient.  If Pantry doesn't have flavor, add flavor and ingredient.
@@ -245,39 +273,36 @@ var Ingredient = function(flavor, name) {
 }
 
 //Add different flavors and ingredients to specific Pantry.
-var pantryItem = new Ingredient('strong', 'glug of rum');
+var pantryItem = new Ingredient('strong', 'a glug of rum');
 barPantry.addIngredient(pantryItem);
-var pantryItem = new Ingredient('strong', 'slug of whisky');
+var pantryItem = new Ingredient('strong', 'a slug of whisky');
 barPantry.addIngredient(pantryItem);
-var pantryItem = new Ingredient('strong', 'splash of gin');
+var pantryItem = new Ingredient('strong', 'a splash of gin');
 barPantry.addIngredient(pantryItem);
-var pantryItem = new Ingredient('salty', 'olive on a stick');
+var pantryItem = new Ingredient('salty', 'an olive on a stick');
 barPantry.addIngredient(pantryItem);
-var pantryItem = new Ingredient('salty', 'salt-dusted rim');
+var pantryItem = new Ingredient('salty', 'a salt-dusted rim');
 barPantry.addIngredient(pantryItem);
-var pantryItem = new Ingredient('salty', 'rasher of bacon');
+var pantryItem = new Ingredient('salty', 'a rasher of bacon');
 barPantry.addIngredient(pantryItem);
-var pantryItem = new Ingredient('bitter', 'shake of bitters');
+var pantryItem = new Ingredient('bitter', 'a shake of bitters');
 barPantry.addIngredient(pantryItem);
-var pantryItem = new Ingredient('bitter', 'splash of tonic');
+var pantryItem = new Ingredient('bitter', 'a splash of tonic');
 barPantry.addIngredient(pantryItem);
-var pantryItem = new Ingredient('bitter', 'twist of lemon peel');
+var pantryItem = new Ingredient('bitter', 'a twist of lemon peel');
 barPantry.addIngredient(pantryItem);
-var pantryItem = new Ingredient('sweet', 'sugar cube');
+var pantryItem = new Ingredient('sweet', 'a sugar cube');
 barPantry.addIngredient(pantryItem);
-var pantryItem = new Ingredient('sweet', 'spoonful of honey');
+var pantryItem = new Ingredient('sweet', 'a spoonful of honey');
 barPantry.addIngredient(pantryItem);
-var pantryItem = new Ingredient('sweet', 'splash of cola');
+var pantryItem = new Ingredient('sweet', 'a splash of cola');
 barPantry.addIngredient(pantryItem);
-var pantryItem = new Ingredient('fruity', 'slice of orange');
+var pantryItem = new Ingredient('fruity', 'a slice of orange');
 barPantry.addIngredient(pantryItem);
-var pantryItem = new Ingredient('fruity', 'dash of cassis');
+var pantryItem = new Ingredient('fruity', 'a dash of cassis');
 barPantry.addIngredient(pantryItem);
-var pantryItem = new Ingredient('fruity', 'cherry on top');
+var pantryItem = new Ingredient('fruity', 'a cherry on top');
 barPantry.addIngredient(pantryItem);
-
-//console.log(barPantry);
-
 
 var pantryItem = new Ingredient('vegetable', 'lettuce');
 grillPantry.addIngredient(pantryItem);
@@ -310,7 +335,6 @@ grillPantry.addIngredient(pantryItem);
 var pantryItem = new Ingredient('sauce', 'mustard');
 grillPantry.addIngredient(pantryItem);
 
-//console.log(grillPantry);
 enter();
 });
 
