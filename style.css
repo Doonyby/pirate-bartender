@@ -1,3 +1,49 @@
-.column {
-	border: 1px solid black;
+div {
+	text-align: center;
+	color: #00ffff;
+	font-family: 'Architects Daughter', cursive;
+	font-size: 110%;
+	font-weight: bold;
+}
+
+#comment,
+#dialogue {
+	font-size: 140%;
+}
+
+#picture {
+	height: 750px;
+	width: 100%;
+	background-image: url(http://www.tweetspeakpoetry.com/wp-content/uploads/2014/12/TSP-doorway.jpg);
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	padding: 2% 0;
+}
+
+#enterBar,
+#order {
+	padding: 5% 0;
+}
+
+#orderDrink {
+	margin-right: 10px;
+}
+
+#orderBurger {
+	margin-left: 10px;
+}
+
+#inputForm {
+	margin-left: 525px;
+	text-align: left;
+}
+
+input {
+	text-align: center;
+	background-color: black;
+}
+
+button {
+	height: 2em;
+	background-color: black;
 }

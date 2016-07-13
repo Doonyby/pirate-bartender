@@ -21,6 +21,7 @@ $(document).ready(function() {
 	    html2 += "<button id='orderBurger'>I want a burger!</button><br>"
 		$('#barGrill').html(html2);
 		$('#orderDrink').click(function() {
+			$('#picture').css('background-image', 'url(http://www.lostatseaphotography.com/mephotos/pirate-bar-vintage-bottles-1600.jpg)');
 			var html = "";
 			html += "<br><p>The name is Bud, what's yours?</p>";
 			$('#dialogue').html(html);
@@ -28,6 +29,7 @@ $(document).ready(function() {
 		});
 
 		$('#orderBurger').click(function() {
+			$('#picture').css('background-image', 'url(http://www.lostatseaphotography.com/mephotos/pirate-bar-vintage-bottles-1600.jpg)');
 			var customer = "";
 			var html = "";
 			html += "<br><p>The name is Clarence, what's yours?</p>";
@@ -131,15 +133,15 @@ Cook.prototype.getBurger = function(name) {
 Cook.prototype.createBurger = function(name) {
 	var choices = [];	
 	var html = ""
-	html += "<p>How do ye prefer yer stack:</p><br><form>";
+	html += "<p>How do ye prefer yer stack:</p><br><form><div id='inputForm'>";
 	for (var i=0; i<grillQuestions.questions.length; i++) {
-		html += "<input type='radio' value='" + grillQuestions.questions[i].flavor + "'> " + grillQuestions.questions[i].question + "<br><br>";
+		html += "<input type='radio' value='" + grillQuestions.questions[i].flavor + "'> " + grillQuestions.questions[i].question + "<br>";
 	}
-	html += "<br><input type='submit' id='burgerMaker' value='Make my burger!'>"
+	html += "</div><br><input type='submit' id='burgerMaker' value='Make my burger!'>"
 	$('#action').html(html);
 	$('#burgerMaker').click(function(event) {
 		event.preventDefault();
-        $.each($("input[type='radio']:checked"), function() {            
+    	$.each($("input[type='radio']:checked"), function() {            
             choices.push($(this).val()); 
         });
         grillPantry.getIngredient(choices);
@@ -178,11 +180,11 @@ Bartender.prototype.getDrink = function(name) {
 Bartender.prototype.createDrink = function(name) {
 	var choices = [];
 	var html = "";
-	html += "<p>How do ye prefer yer poison:</p><br><form>";
+	html += "<p>How do ye prefer yer poison:</p><br><form><div id='inputForm'>";
 	for (var i=0; i<barQuestions.questions.length; i++) {
 		html += "<input type='radio' value='" + barQuestions.questions[i].flavor + "'> " + barQuestions.questions[i].question + "<br><br>";
 	}
-	html += "<br><input type='submit' id='drinkMixer' value='Mix my drink!'>";
+	html += "</div><br><input type='submit' id='drinkMixer' value='Mix my drink!'>";
 	$('#action').html(html);
 	$('#drinkMixer').click(function(event) {
 		event.preventDefault();
