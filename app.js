@@ -29,7 +29,7 @@ $(document).ready(function() {
 		});
 
 		$('#orderBurger').click(function() {
-			$('#picture').css('background-image', 'url(http://www.lostatseaphotography.com/mephotos/pirate-bar-vintage-bottles-1600.jpg)');
+			$('#picture').css('background-image', 'url(http://grillingwithrich.com/wp-content/uploads/2012/11/Grilling-Hamburgers.jpg)');
 			var customer = "";
 			var html = "";
 			html += "<br><p>The name is Clarence, what's yours?</p>";
