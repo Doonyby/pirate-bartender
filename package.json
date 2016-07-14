@@ -1,0 +1,23 @@
+{
+  "name": "pirate-bartender",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Doonyby/pirate-bartender.git"
+  },
+  "author": "Dan Riding",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Doonyby/pirate-bartender/issues"
+  },
+  "homepage": "https://github.com/Doonyby/pirate-bartender#readme",
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "jquery": "^3.1.0"
+  }
+}
